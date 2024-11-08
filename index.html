@@ -166,12 +166,16 @@
             const imageContainer = document.getElementById('image-container');
             
             // Use html2canvas to capture the content
-            html2canvas(imageContainer).then(canvas => {
+            html2canvas(imageContainer).then(function(canvas) {
                 // Create a link to download the image
                 const link = document.createElement('a');
                 link.download = 'image_with_text.png'; // Name of the file to be downloaded
-                link.href = canvas.toDataURL("image/png"); // Convert canvas to PNG image
-                link.click(); // Trigger the download automatically
+
+                // Convert canvas to PNG image and set it as the href of the link
+                link.href = canvas.toDataURL("image/png");
+
+                // Trigger the download
+                link.click();
             });
         }
     </script>
