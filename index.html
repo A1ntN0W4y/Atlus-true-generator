@@ -145,7 +145,7 @@
         </div>
 
         <!-- Save Button -->
-        <button id="saveButton" onclick="saveImage(event)">Save Image</button>
+        <button id="saveButton" onclick="saveImage()">Save Image</button>
     </div>
 
     <!-- Modal for image selection -->
@@ -213,9 +213,7 @@
         }
 
         // Function to save the image and text as a PNG and download it directly
-        function saveImage(event) {
-            event.preventDefault();  // Prevent default button behavior (like page scrolling)
-
+        function saveImage() {
             const imageContainer = document.getElementById('image-container');
             
             // Use html2canvas to capture the content
