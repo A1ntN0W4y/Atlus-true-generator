@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Selector with Tags</title>
+    <title>Adachi Image Selector</title>
     <style>
         .image-container {
             text-align: center;
@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Image Selector with Search</h1>
+    <h1 style="text-align: center;">Adachi Image Selector</h1>
 
     <div class="search">
         <input type="text" id="searchInput" placeholder="Search for an image type...">
@@ -31,7 +31,7 @@
     </div>
 
     <div class="image-container">
-        <img id="mainImage" src="images/image1.png" alt="Image" style="width: 300px; height: auto; cursor: pointer;" onclick="showOptions()">
+        <img id="mainImage" src="images/adachi_shadow_menacing.png" alt="Adachi Image" style="width: 300px; height: auto; cursor: pointer;" onclick="showOptions()">
         <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black;">Your Comic Text Here</div>
     </div>
 
@@ -49,9 +49,8 @@
     <script>
         // Array of image objects with primary and secondary tags
         const images = [
-            { src: "images/adachi_worried_blush.png", primaryTag: "adachi", secondaryTag: "persona 4" },
-            { src: "images/adachi_shadow_menacing.png", primaryTag: "adachi", secondaryTag: "persona 4" },
-            { src: "images/image3.png", primaryTag: "ocean", secondaryTag: "sunset" }
+            { src: "images/adachi_shadow_menacing.png", primaryTag: "shadow", secondaryTag: "menacing" },
+            { src: "images/adachi_worried_blush.png", primaryTag: "worried", secondaryTag: "blush" }
         ];
 
         // Function to search and filter images based on tags
