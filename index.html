@@ -4,93 +4,107 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Persona True Generator</title>
+    <title>Image Selector with Tags</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f9f9f9;
-            padding: 20px;
-        }
         .image-container {
+            text-align: center;
             margin-top: 20px;
-            position: relative;
         }
         .comic-text {
-            font-family: "Comic Sans MS", sans-serif;
+            font-family: "Comic Sans MS", cursive, sans-serif;
             font-size: 20px;
-            color: black;
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 10px;
         }
         .options, .search {
-            margin: 10px 0;
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Interactive Image Selector</h1>
+    <h1 style="text-align: center;">Image Selector with Search</h1>
 
     <div class="search">
         <input type="text" id="searchInput" placeholder="Search for an image type...">
+        <input type="text" id="secondaryTagInput" placeholder="Enter a secondary tag...">
         <button onclick="searchImages()">Search</button>
     </div>
 
     <div class="image-container">
-        <img id="mainImage" src="default.jpg" alt="Image" style="width: 300px; height: auto; cursor: pointer;" onclick="showOptions()">
-        <div class="comic-text" id="textOverlay">Your Comic Text Here</div>
+        <img id="mainImage" src="images/image1.png" alt="Image" style="width: 300px; height: auto; cursor: pointer;" onclick="showOptions()">
+        <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black;">Your Comic Text Here</div>
     </div>
 
     <div class="options" id="options" style="display: none;">
         <p>Choose an image:</p>
         <select id="imageSelector" onchange="changeImage()">
-            <option value="image1.jpg">Image 1</option>
-            <option value="image2.jpg">Image 2</option>
-            <option value="image3.jpg">Image 3</option>
+            <!-- Options will be populated dynamically by JavaScript -->
         </select>
-        <br>
-        <p>Change text:</p>
-        <input type="text" id="textInput" oninput="updateText()">
-        <br>
         <p>Change text color:</p>
-        <input type="color" id="colorPicker" onchange="changeTextColor()">
+        <input type="color" id="textColorPicker" onchange="changeTextColor()">
     </div>
 
     <button onclick="saveImage()">Save Image</button>
 
     <script>
-        function showOptions() {
-            document.getElementById('options').style.display = 'block';
-        }
+        // Array of image objects with primary and secondary tags
+        const images = [
+            { src: "images/adachi_worried_blush.png", primaryTag: "adachi", secondaryTag: "persona 4" },
+            { src: "images/adachi_shadow_menacing.png", primaryTag: "adachi", secondaryTag: "persona 4" },
+            { src: "images/image3.png", primaryTag: "ocean", secondaryTag: "sunset" }
+        ];
 
+        // Function to search and filter images based on tags
         function searchImages() {
-            const query = document.getElementById('searchInput').value;
-            alert('Search for: ' + query); // You can implement a real search functionality here
+            const primaryQuery = document.getElementById('searchInput').value.toLowerCase();
+            const secondaryQuery = document.getElementById('secondaryTagInput').value.toLowerCase();
+            
+            // Filter images based on the queries
+            const filteredImages = images.filter(image => 
+                image.primaryTag.includes(primaryQuery) && 
+                image.secondaryTag.includes(secondaryQuery)
+            );
+
+            // Update the image selector with filtered images
+            const imageSelector = document.getElementById('imageSelector');
+            imageSelector.innerHTML = ""; // Clear current options
+
+            filteredImages.forEach(image => {
+                const option = document.createElement('option');
+                option.value = image.src;
+                option.textContent = `${image.primaryTag} - ${image.secondaryTag}`;
+                imageSelector.appendChild(option);
+            });
+
+            // Change the image to the first filtered result (if any)
+            if (filteredImages.length > 0) {
+                document.getElementById('mainImage').src = filteredImages[0].src;
+            } else {
+                alert("No images found with the specified tags.");
+            }
         }
 
+        // Function to change the displayed image
         function changeImage() {
-            const image = document.getElementById('imageSelector').value;
-            document.getElementById('mainImage').src = image;
+            const imageSelector = document.getElementById('imageSelector');
+            const selectedImage = imageSelector.value;
+            document.getElementById('mainImage').src = selectedImage;
         }
 
-        function updateText() {
-            const text = document.getElementById('textInput').value;
-            document.getElementById('textOverlay').innerText = text;
+        // Function to show the options
+        function showOptions() {
+            document.getElementById('options').style.display = "block";
         }
 
+        // Function to change the text color
         function changeTextColor() {
-            const color = document.getElementById('colorPicker').value;
+            const color = document.getElementById('textColorPicker').value;
             document.getElementById('textOverlay').style.color = color;
         }
 
+        // Function to save the image (this functionality requires a bit more work with canvas)
         function saveImage() {
-            const mainImage = document.getElementById('mainImage');
-            const link = document.createElement('a');
-            link.download = 'image.png';
-            link.href = mainImage.src;
-            link.click();
+            alert("Saving images requires additional functionality to be implemented with HTML canvas.");
         }
     </script>
 </body>
