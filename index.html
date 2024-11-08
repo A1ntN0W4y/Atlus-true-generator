@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adachi Image Selector with Tag Menu</title>
+    <title>Adachi Image Selector with Font and Color Change</title>
     <style>
         .image-container {
             text-align: center;
@@ -15,7 +15,7 @@
             font-size: 20px;
             margin-top: 10px;
         }
-        .options, .search {
+        .search {
             text-align: center;
             margin-top: 20px;
         }
@@ -43,10 +43,13 @@
             margin: 10px;
             cursor: pointer;
         }
+        .font-selector, .color-selector {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Adachi Image Selector with Tag Menu</h1>
+    <h1 style="text-align: center;">Adachi Image Selector with Font and Color Change</h1>
 
     <div class="search">
         <button onclick="openModal()">Open Image Menu</button>
@@ -55,6 +58,20 @@
     <div class="image-container">
         <img id="mainImage" src="images/adachi_shadow_menacing.png" alt="Adachi Image" style="width: 300px; height: auto;">
         <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black;">Your Comic Text Here</div>
+        <div class="font-selector">
+            <label for="fontSelector">Choose a font:</label>
+            <select id="fontSelector" onchange="changeFont()">
+                <option value="'Comic Sans MS', cursive, sans-serif">Comic Sans</option>
+                <option value="'Arial', sans-serif">Arial</option>
+                <option value="'Times New Roman', serif">Times New Roman</option>
+                <option value="'Courier New', monospace">Courier New</option>
+                <option value="'Verdana', sans-serif">Verdana</option>
+            </select>
+        </div>
+        <div class="color-selector">
+            <label for="colorPicker">Choose text color:</label>
+            <input type="color" id="colorPicker" onchange="changeTextColor()">
+        </div>
     </div>
 
     <!-- Modal for image selection -->
@@ -101,6 +118,18 @@
         function selectImage(src) {
             document.getElementById('mainImage').src = src;
             closeModal();
+        }
+
+        // Function to change the font of the text
+        function changeFont() {
+            const font = document.getElementById('fontSelector').value;
+            document.getElementById('textOverlay').style.fontFamily = font;
+        }
+
+        // Function to change the text color
+        function changeTextColor() {
+            const color = document.getElementById('colorPicker').value;
+            document.getElementById('textOverlay').style.color = color;
         }
     </script>
 </body>
