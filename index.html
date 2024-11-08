@@ -72,15 +72,6 @@
             margin-top: 20px;
         }
 
-        #saveButton {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
         /* Mobile Responsive */
         @media (max-width: 600px) {
             .image-container {
@@ -93,10 +84,6 @@
 
             .font-selector, .color-selector, .size-selector {
                 font-size: 14px;
-            }
-
-            #saveButton {
-                width: 100%;
             }
         }
 
@@ -117,7 +104,7 @@
     </div>
 
     <div class="image-container" id="image-container">
-        <img id="mainImage" src="images/adachi_shadow_menacing.png" alt="Adachi Image" style="width: 100%; height: auto;">
+        <img id="mainImage" src="images/adachi_1.png" alt="Adachi Image" style="width: 100%; height: auto;">
         <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black; font-size: 20px;">Your Comic Text Here</div>
 
         <!-- Font Selector -->
@@ -143,9 +130,6 @@
             <label for="fontSizeSelector">Choose font size:</label>
             <input type="number" id="fontSizeSelector" value="20" min="10" max="100" onchange="changeFontSize()">
         </div>
-
-        <!-- Save Button -->
-        <button id="saveButton" onclick="saveImage()">Save Image</button>
     </div>
 
     <!-- Modal for image selection -->
@@ -160,11 +144,11 @@
     </div>
 
     <script>
-        // Array of image objects with primary and secondary tags
-        const images = [
-            { src: "images/adachi_shadow_menacing.png", primaryTag: "shadow", secondaryTag: "menacing" },
-            { src: "images/adachi_worried_blush.png", primaryTag: "worried", secondaryTag: "blush" }
-        ];
+        // Generate the 100 images dynamically
+        const images = [];
+        for (let i = 1; i <= 100; i++) {
+            images.push({ src: `images/adachi_${i}.png`, primaryTag: "adachi", secondaryTag: `image-${i}` });
+        }
 
         // Function to open the modal and display images
         function openModal() {
@@ -210,24 +194,6 @@
         function changeFontSize() {
             const fontSize = document.getElementById('fontSizeSelector').value;
             document.getElementById('textOverlay').style.fontSize = fontSize + "px";
-        }
-
-        // Function to save the image and text as a PNG and download it directly
-        function saveImage() {
-            const imageContainer = document.getElementById('image-container');
-            
-            // Use html2canvas to capture the content
-            html2canvas(imageContainer).then(function(canvas) {
-                // Create a link to download the image
-                const link = document.createElement('a');
-                link.download = 'image_with_text.png'; // Name of the file to be downloaded
-
-                // Convert canvas to PNG image and set it as the href of the link
-                link.href = canvas.toDataURL("image/png");
-
-                // Trigger the download
-                link.click();
-            });
         }
     </script>
 </body>
