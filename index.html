@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adachi Image Selector with Font and Color Change</title>
+    <title>Adachi Image Selector with Font, Color, and Size Change</title>
     <style>
         .image-container {
             text-align: center;
@@ -43,13 +43,13 @@
             margin: 10px;
             cursor: pointer;
         }
-        .font-selector, .color-selector {
+        .font-selector, .color-selector, .size-selector {
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Adachi Image Selector with Font and Color Change</h1>
+    <h1 style="text-align: center;">Adachi Image Selector with Font, Color, and Size Change</h1>
 
     <div class="search">
         <button onclick="openModal()">Open Image Menu</button>
@@ -57,7 +57,9 @@
 
     <div class="image-container">
         <img id="mainImage" src="images/adachi_shadow_menacing.png" alt="Adachi Image" style="width: 300px; height: auto;">
-        <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black;">Your Comic Text Here</div>
+        <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black; font-size: 20px;">Your Comic Text Here</div>
+
+        <!-- Font Selector -->
         <div class="font-selector">
             <label for="fontSelector">Choose a font:</label>
             <select id="fontSelector" onchange="changeFont()">
@@ -68,9 +70,17 @@
                 <option value="'Verdana', sans-serif">Verdana</option>
             </select>
         </div>
+
+        <!-- Color Selector -->
         <div class="color-selector">
             <label for="colorPicker">Choose text color:</label>
             <input type="color" id="colorPicker" onchange="changeTextColor()">
+        </div>
+
+        <!-- Font Size Selector -->
+        <div class="size-selector">
+            <label for="fontSizeSelector">Choose font size:</label>
+            <input type="number" id="fontSizeSelector" value="20" min="10" max="100" onchange="changeFontSize()">
         </div>
     </div>
 
@@ -130,6 +140,12 @@
         function changeTextColor() {
             const color = document.getElementById('colorPicker').value;
             document.getElementById('textOverlay').style.color = color;
+        }
+
+        // Function to change the font size
+        function changeFontSize() {
+            const fontSize = document.getElementById('fontSizeSelector').value;
+            document.getElementById('textOverlay').style.fontSize = fontSize + "px";
         }
     </script>
 </body>
