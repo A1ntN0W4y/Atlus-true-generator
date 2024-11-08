@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adachi Image Selector</title>
+    <title>Adachi Image Selector with Tag Menu</title>
     <style>
         .image-container {
             text-align: center;
@@ -19,32 +19,54 @@
             text-align: center;
             margin-top: 20px;
         }
+        .modal {
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            justify-content: center; 
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 80%;
+            text-align: center;
+        }
+        .modal-image {
+            width: 150px;
+            height: auto;
+            margin: 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Adachi Image Selector</h1>
+    <h1 style="text-align: center;">Adachi Image Selector with Tag Menu</h1>
 
     <div class="search">
-        <input type="text" id="searchInput" placeholder="Search for an image type...">
-        <input type="text" id="secondaryTagInput" placeholder="Enter a secondary tag...">
-        <button onclick="searchImages()">Search</button>
+        <button onclick="openModal()">Open Image Menu</button>
     </div>
 
     <div class="image-container">
-        <img id="mainImage" src="images/adachi_shadow_menacing.png" alt="Adachi Image" style="width: 300px; height: auto; cursor: pointer;" onclick="showOptions()">
+        <img id="mainImage" src="images/adachi_shadow_menacing.png" alt="Adachi Image" style="width: 300px; height: auto;">
         <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black;">Your Comic Text Here</div>
     </div>
 
-    <div class="options" id="options" style="display: none;">
-        <p>Choose an image:</p>
-        <select id="imageSelector" onchange="changeImage()">
-            <!-- Options will be populated dynamically by JavaScript -->
-        </select>
-        <p>Change text color:</p>
-        <input type="color" id="textColorPicker" onchange="changeTextColor()">
+    <!-- Modal for image selection -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <h2>Select an Image</h2>
+            <div id="imageGallery">
+                <!-- Images with tags will be added here dynamically -->
+            </div>
+            <button onclick="closeModal()">Close</button>
+        </div>
     </div>
-
-    <button onclick="saveImage()">Save Image</button>
 
     <script>
         // Array of image objects with primary and secondary tags
@@ -53,57 +75,32 @@
             { src: "images/adachi_worried_blush.png", primaryTag: "worried", secondaryTag: "blush" }
         ];
 
-        // Function to search and filter images based on tags
-        function searchImages() {
-            const primaryQuery = document.getElementById('searchInput').value.toLowerCase();
-            const secondaryQuery = document.getElementById('secondaryTagInput').value.toLowerCase();
-            
-            // Filter images based on the queries
-            const filteredImages = images.filter(image => 
-                image.primaryTag.includes(primaryQuery) && 
-                image.secondaryTag.includes(secondaryQuery)
-            );
+        // Function to open the modal and display images
+        function openModal() {
+            const imageGallery = document.getElementById('imageGallery');
+            imageGallery.innerHTML = ""; // Clear current images
 
-            // Update the image selector with filtered images
-            const imageSelector = document.getElementById('imageSelector');
-            imageSelector.innerHTML = ""; // Clear current options
-
-            filteredImages.forEach(image => {
-                const option = document.createElement('option');
-                option.value = image.src;
-                option.textContent = `${image.primaryTag} - ${image.secondaryTag}`;
-                imageSelector.appendChild(option);
+            images.forEach(image => {
+                const imgElement = document.createElement('img');
+                imgElement.src = image.src;
+                imgElement.alt = `${image.primaryTag} - ${image.secondaryTag}`;
+                imgElement.className = "modal-image";
+                imgElement.onclick = () => selectImage(image.src);
+                imageGallery.appendChild(imgElement);
             });
 
-            // Change the image to the first filtered result (if any)
-            if (filteredImages.length > 0) {
-                document.getElementById('mainImage').src = filteredImages[0].src;
-            } else {
-                alert("No images found with the specified tags.");
-            }
+            document.getElementById('imageModal').style.display = "flex";
         }
 
-        // Function to change the displayed image
-        function changeImage() {
-            const imageSelector = document.getElementById('imageSelector');
-            const selectedImage = imageSelector.value;
-            document.getElementById('mainImage').src = selectedImage;
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('imageModal').style.display = "none";
         }
 
-        // Function to show the options
-        function showOptions() {
-            document.getElementById('options').style.display = "block";
-        }
-
-        // Function to change the text color
-        function changeTextColor() {
-            const color = document.getElementById('textColorPicker').value;
-            document.getElementById('textOverlay').style.color = color;
-        }
-
-        // Function to save the image (this functionality requires a bit more work with canvas)
-        function saveImage() {
-            alert("Saving images requires additional functionality to be implemented with HTML canvas.");
+        // Function to select an image and close the modal
+        function selectImage(src) {
+            document.getElementById('mainImage').src = src;
+            closeModal();
         }
     </script>
 </body>
