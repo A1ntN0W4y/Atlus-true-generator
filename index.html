@@ -10,6 +10,7 @@
         .image-container {
             text-align: center;
             margin-top: 20px;
+            display: inline-block;
         }
         .comic-text {
             font-family: "Comic Sans MS", cursive, sans-serif;
@@ -64,7 +65,7 @@
         <button onclick="openModal()">Open Image Menu</button>
     </div>
 
-    <div class="image-container">
+    <div class="image-container" id="image-container">
         <img id="mainImage" src="images/adachi_shadow_menacing.png" alt="Adachi Image" style="width: 300px; height: auto;">
         <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black; font-size: 20px;">Your Comic Text Here</div>
 
@@ -162,7 +163,7 @@
 
         // Function to save the image and text as a PNG
         function saveImage() {
-            const imageContainer = document.querySelector('.image-container');
+            const imageContainer = document.getElementById('image-container');
             
             // Use html2canvas to capture the content
             html2canvas(imageContainer).then(canvas => {
