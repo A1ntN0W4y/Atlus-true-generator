@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atlas True Generator</title>
+    <title>Adachi Image Selector with Font, Color, and Size Change</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <style>
         .image-container {
             text-align: center;
@@ -46,10 +47,18 @@
         .font-selector, .color-selector, .size-selector {
             margin-top: 20px;
         }
+        #saveButton {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1 style="text-align: center;">Atlus True Generator</h1>
+    <h1 style="text-align: center;">Adachi Image Selector with Font, Color, and Size Change</h1>
 
     <div class="search">
         <button onclick="openModal()">Open Image Menu</button>
@@ -57,7 +66,7 @@
 
     <div class="image-container">
         <img id="mainImage" src="images/adachi_shadow_menacing.png" alt="Adachi Image" style="width: 300px; height: auto;">
-        <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black; font-size: 20px;">Put Text Here</div>
+        <div class="comic-text" id="textOverlay" contenteditable="true" style="color: black; font-size: 20px;">Your Comic Text Here</div>
 
         <!-- Font Selector -->
         <div class="font-selector">
@@ -82,6 +91,9 @@
             <label for="fontSizeSelector">Choose font size:</label>
             <input type="number" id="fontSizeSelector" value="20" min="10" max="100" onchange="changeFontSize()">
         </div>
+
+        <!-- Save Button -->
+        <button id="saveButton" onclick="saveImage()">Save Image</button>
     </div>
 
     <!-- Modal for image selection -->
@@ -146,6 +158,20 @@
         function changeFontSize() {
             const fontSize = document.getElementById('fontSizeSelector').value;
             document.getElementById('textOverlay').style.fontSize = fontSize + "px";
+        }
+
+        // Function to save the image and text as a PNG
+        function saveImage() {
+            const imageContainer = document.querySelector('.image-container');
+            
+            // Use html2canvas to capture the content
+            html2canvas(imageContainer).then(canvas => {
+                // Create a link to download the image
+                const link = document.createElement('a');
+                link.download = 'image_with_text.png';
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
         }
     </script>
 </body>
